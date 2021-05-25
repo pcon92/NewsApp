@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         borderColor: "grey",
         borderStyle: "solid",
         padding: 10,
-        justifyContent: "center"
+        justifyContent: "center",
     },
     articleImage: {
         borderWidth: 1,

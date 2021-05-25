@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet,Text,View,Image,Linking} from 'react-native';
 
 
 const Details = ({article, route}) => {
@@ -13,6 +13,11 @@ const Details = ({article, route}) => {
         setchosenArticle(article[pickedArticleIndex])
     }, []);
 
+    const openLinkinBrowser = () => {
+        Linking.openURL(chosenArticle.url)
+        .catch((err) => console.error('Unable to open link in browser', err))
+    };
+
     if (!chosenArticle) {
         return (
             <Text>No article chosen</Text>
@@ -20,50 +25,27 @@ const Details = ({article, route}) => {
     }
 
     return (
-        <View style={
-            styles.detailsContainer
-        }>
-            <Image style={
-                    styles.detailsImage
-                }
-                source={
-                    {
+        <View style={styles.detailsContainer}>
+            <Image style={styles.detailsImage}
+                source={{
                         width: 300,
                         height: 300,
                         borderStyle: "solid",
                         uri: `${
                             chosenArticle.urlToImage
                         }`
-                    }
-                }/>
-            <Text style={
-                styles.detailsTitle
-            }>
-                {
-                chosenArticle.title
-            }</Text>
-            <Text style={
-                styles.detailsAuthor
-            }>
-                {
-                chosenArticle.author
-            }</Text>
-            <Text style={
-                styles.detailsPublishedAt
-            }>
+                    }}/>
+            <Text style={styles.detailsTitle}
+                onPress={openLinkinBrowser}>
+                {chosenArticle.title}</Text>
+            <Text style={styles.detailsAuthor}>
+                {chosenArticle.author}</Text>
+            <Text style={styles.detailsPublishedAt}>
                 {cleanedTime}</Text>
-            <Text style={
-                styles.detailsUrl
-            }>
-                Source: {
-                chosenArticle.url
-            }</Text>
-            <Text style={
-                styles.detailsContent
-            }>
-                {
-                chosenArticle.content
-            }</Text>
+            <Text style={styles.detailsUrl}>
+                Source: {chosenArticle.url}</Text>
+            <Text style={styles.detailsContent}>
+                {chosenArticle.content}</Text>
         </View>
     );
 };
@@ -78,12 +60,10 @@ const styles = StyleSheet.create({
     detailsImage: {
         borderWidth: 1,
         borderColor: "black"
-
     },
     detailsTitle: {
         fontSize: 20,
         fontWeight: "bold"
-
     },
     detailsAuthor: {
         fontSize: 14,
@@ -91,15 +71,12 @@ const styles = StyleSheet.create({
     },
     detailsPublishedAt: {
         fontSize: 8
-
     },
     detailsUrl: {
         fontSize: 8
-
     },
     detailsContent: {
         fontSize: 14
-
     }
 });
 
