@@ -1,30 +1,17 @@
-import React from 'react';
-import {
-    Image,
-    StyleSheet,
-    Text,
-    View,
-    Pressable
-} from 'react-native';
-
+import React, {useState} from 'react';
+import {Image, StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 
 import CleanTime from '../components/CleanTime';
+import colors from '../config/colors';
 
-const Article = ({
-    urlToImage,
-    title,
-    author,
-    description,
-    publishedAt,
-    navigation
-}) => {
+const Article = ({urlToImage, title, author, description, publishedAt, navigation}) => {
+
+    const [noImage, setNoImage] = useState(false);
 
     let cleanedTime = CleanTime(publishedAt);
 
     return (
-        <Pressable style={
-                styles.articleContainer
-            }
+        <TouchableHighlight style={styles.articleContainer}
             onPress={
                 () => {
                     navigation.navigate("Details", {
@@ -32,40 +19,49 @@ const Article = ({
                         cleanedTime: cleanedTime
                     });
                 }
-        }>
-            <Image style={
-                    styles.articleImage
-                }
-                source={
-                    {
-                        width: 100,
-                        height: 100,
-                        borderStyle: "solid",
-                        uri: `${urlToImage}`
-                    }
-                }/>
+        }
+        underlayColor={colors.primaryLowAlpha}
+        activeOpacity={0.9}>
             <View style={
-                styles.articleInformation
+                styles.articleInnerContainer
             }>
-                <Text style={
-                    styles.articleTitle
+                <Image style={
+                        styles.articleImage
+                    }
+                    source={
+                        {
+                            width: 100,
+                            height: 100,
+                            borderStyle: "solid",
+                            uri: `${urlToImage}`
+                            
+                        }
+                    } 
+                    accessibilityLabel="Image from news article"
+                    onError={() => setNoImage(true)}/>
+                    {noImage && <Text style={styles.articleNoImage}>Image not supplied</Text>}
+                <View style={
+                    styles.articleInformation
                 }>
-                    {title}</Text>
-                <Text style={
-                    styles.articleAuthor
-                }>
-                    {author}</Text>
-                <Text style={
-                    styles.articleDescription
-                }>
-                    {description}</Text>
-                <Text style={
-                    styles.articlePublishedAt
-                }>
-                    {cleanedTime} </Text>
+                    <Text style={
+                        styles.articleTitle
+                    }>
+                        {title}</Text>
+                    <Text style={
+                        styles.articleAuthor
+                    }>
+                        {author}</Text>
+                    <Text style={
+                        styles.articleDescription
+                    }>
+                        {description}</Text>
+                    <Text style={
+                        styles.articlePublishedAt
+                    }>
+                        {cleanedTime} </Text>
+                </View>
             </View>
-
-        </Pressable>
+        </TouchableHighlight>
     );
 };
 
@@ -73,17 +69,30 @@ const styles = StyleSheet.create({
     articleContainer: {
         flex: 1,
         width: 400,
-        flexDirection: "row",
-        backgroundColor: "white",
+        backgroundColor: colors.white,
         borderWidth: 0.5,
-        borderColor: "grey",
+        borderColor: colors.grey,
         borderStyle: "solid",
-        padding: 10,
-        justifyContent: "center",
     },
+    articleInnerContainer: {
+        flex: 1,
+        flexDirection: "row",
+        padding: 15,
+    }, 
     articleImage: {
         borderWidth: 1,
-        borderColor: "black"
+        borderColor: colors.black,
+        borderRadius: 50
+    },
+    articleNoImage: {
+        position: "relative",
+        transform: [{translateX: -100}],
+        fontSize: 10,
+        width: 100,
+        height: 100,
+        marginRight: -100,
+        lineHeight: 100,
+        textAlign: "center"
     },
     articleTitle: {
         fontSize: 11,
@@ -91,8 +100,8 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     articleInformation: {
-        flex: -1,
-        marginLeft: 10
+        flex: 1,
+        marginLeft: 15
     },
     articleAuthor: {
         fontSize: 10,

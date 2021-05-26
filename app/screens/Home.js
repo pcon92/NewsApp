@@ -3,6 +3,7 @@ import {ScrollView,StyleSheet,View,Text,RefreshControl} from 'react-native';
 
 import Article from '../components/Article';
 import {API_KEY} from '@env';
+import colors from '../config/colors';
 
 
 const Home = ({navigation, article, setArticle}) => {
@@ -122,9 +123,9 @@ const styles = StyleSheet.create({
     },
     homeTitle: {
         fontSize: 24,
-        backgroundColor: "teal",
+        backgroundColor: colors.primaryColor,
         padding: 10,
-        color: "white"
+        color: colors.white
     },
     loadingArticles: {
         fontSize: 24

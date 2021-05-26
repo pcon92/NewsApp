@@ -13,6 +13,7 @@ const Stack = createStackNavigator();
 const App = () => {
 
     const [article, setArticle] = useState([]);
+    
 
     return (
         <NavigationContainer>
@@ -29,12 +30,10 @@ const App = () => {
                 <Stack.Screen name="Details">
                     {
                     props => <Details {...props}
-                        article={article}
-                        setArticle={setArticle}/>
+                        article={article}/>
                 }</Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
-
     );
 };
 
